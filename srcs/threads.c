@@ -1,0 +1,122 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   threads.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/05 17:58:55 by marvin            #+#    #+#             */
+/*   Updated: 2019/03/12 16:13:15 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "doom.h"
+
+static t_thread_args	*create_args(t_doom *doom, int start, int end)
+{
+	t_thread_args *args;
+
+	NULL_CHECK((args = ft_memalloc(sizeof(t_thread_args))));
+	args->doom = doom;
+	args->start = start;
+	args->end = end;
+	return (args);
+}
+
+static void				*draw_rays_thread(void *param)
+{
+	int				i;
+	t_thread_args	*args;
+
+	args = (t_thread_args*)param;
+	i = args->start;
+	while (i < args->end)
+	{
+		ray(args->doom, i);
+		i++;
+	}
+	return (NULL);
+}
+
+static void				draw_gun(t_doom *doom)
+{
+	t_pixel	iw;
+	t_pixel	it;
+	Uint32	tr;
+
+	tr = *(Uint32*)doom->gun->pixels + (0 * 128 + 0)
+			* doom->surface->format->BytesPerPixel;
+	it.y = -1;
+	iw.y = H - 512;
+	while (++it.y < 512)
+	{
+		it.x = -1;
+		iw.x = W / 2 - 256;
+		while (++it.x < 512)
+		{
+			if (tr != *(Uint32*)(doom->gun->pixels + (it.y * 512 + it.x)
+			* doom->surface->format->BytesPerPixel))
+				*(Uint32*)(doom->surface->pixels + (iw.y * W + iw.x)
+				* doom->surface->format->BytesPerPixel) = *(Uint32*)
+				(doom->gun->pixels + (it.y * 512 + it.x)
+				* doom->surface->format->BytesPerPixel);
+			iw.x++;
+		}
+		iw.y++;
+	}
+}
+
+void					*draw_threads(t_doom **doom)
+{
+	t_thread_args	*args;
+	int				start;
+	int				end;
+	pthread_t		id_arr[THREADS];
+	int				i;
+
+	i = -1;
+	start = 0;
+	end = W / THREADS;
+	while (++i < THREADS)
+	{
+		args = create_args(*doom, start, end);
+		pthread_create(&(id_arr[i]), NULL, &draw_rays_thread, args);
+		start = end;
+		end = end + W / THREADS;
+	}
+	i = -1;
+	while (++i < THREADS)
+		pthread_join(id_arr[i], NULL);
+	draw_gun(*doom);
+	SDL_UpdateWindowSurface((*doom)->window);
+	(*doom)->changed = 0;
+	return (NULL);
+}
+
+/*
+** void					*draw_SDL_threads(t_doom *doom)
+**{
+**	t_thread_args	*args;
+**	int				start;
+**	int				end;
+**	SDL_Thread		*id_arr[THREADS];
+**	int				i;
+**
+**	i = -1;
+**	start = 0;
+**	end = W / THREADS;
+**	while (++i < THREADS)
+**	{
+**		args = create_args(doom, start, end);
+**		id_arr[i] = SDL_CreateThread(draw_rays_thread, NULL, args);
+**		start = end + 1;
+**		end = end + W / THREADS;
+**	}
+**	i = -1;
+**	while (++i < THREADS)
+**		SDL_WaitThread(id_arr[i], NULL);
+**	draw_gun(doom);
+**	SDL_UpdateWindowSurface(doom->window);
+**	return (NULL);
+**}
+*/

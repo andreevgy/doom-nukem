@@ -1,0 +1,16 @@
+{
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "editor.renderWhitespace": "all",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "editor.rulers": [
+        80
+    ],
+    "window.zoomLevel": 1,
+    "terminal.integrated.fontFamily": "monospace",
+    "files.associations": {
+        "doom.h": "c",
+        "libft.h": "c"
+    }
+}
