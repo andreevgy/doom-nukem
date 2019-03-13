@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 15:19:26 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/12 16:12:55 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/13 13:14:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int			main(int argc, char **argv)
 		doom = create_doom(argv[1]);
 		if (!doom)
 			process_error();
-		draw_threads(&doom);
+		draw_sdl_threads(doom);
 		while (doom->running)
 			if (doom->changed)
-				draw_threads(&doom);
+				draw_sdl_threads(doom);
 			else
 				while (SDL_PollEvent(&(doom->event)))
 					key_press(doom->event, doom);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/12 16:12:44 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/13 13:14:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,6 @@ int				read_textures(t_doom **doom);
 void			floor_casting(t_ray ray, t_doom *doom, int x);
 int				read_music(t_doom **doom);
 void			*draw_threads(t_doom **doom);
+void			*draw_sdl_threads(t_doom *doom);
 
 #endif

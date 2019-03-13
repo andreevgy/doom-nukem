@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 15:10:01 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/12 16:40:49 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/13 13:13:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static void		draw_pixel(t_ray ray, t_doom *doom,
 		* doom->surface->format->BytesPerPixel) =
 		*(Uint32*)(doom->textures[4]->pixels + (TS * floor_tex.y + floor_tex.x)
 		* doom->textures[4]->format->BytesPerPixel);
-	if ((H + (2 * doom->vertical) - pixel.y) < H && pixel.x < W)
+	if ((H + (2 * doom->vertical) - pixel.y) < H
+	&& (H + (2 * doom->vertical) - pixel.y) >= 0 && pixel.x >= 0 && pixel.x < W)
 		*(Uint32*)(doom->surface->pixels + ((H + (2 * doom->vertical) - pixel.y)
 		* W + pixel.x)
 		* doom->surface->format->BytesPerPixel) =

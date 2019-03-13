@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 17:58:55 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/12 16:13:15 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/13 13:14:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_thread_args	*create_args(t_doom *doom, int start, int end)
 	return (args);
 }
 
-static void				*draw_rays_thread(void *param)
+static int				draw_rays_thread(void *param)
 {
 	int				i;
 	t_thread_args	*args;
@@ -35,7 +35,7 @@ static void				*draw_rays_thread(void *param)
 		ray(args->doom, i);
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 static void				draw_gun(t_doom *doom)
@@ -66,12 +66,40 @@ static void				draw_gun(t_doom *doom)
 	}
 }
 
-void					*draw_threads(t_doom **doom)
+/*
+**	void					*draw_threads(t_doom **doom)
+**	{
+**	t_thread_args	*args;
+**	int				start;
+**	int				end;
+**	pthread_t		id_arr[THREADS];
+**	int				i;
+**	i = -1;
+**	start = 0;
+**	end = W / THREADS;
+**	while (++i < THREADS)
+**	{
+**		args = create_args(*doom, start, end);
+**		pthread_create(&(id_arr[i]), NULL, &draw_rays_thread, args);
+**		start = end;
+**		end = end + W / THREADS;
+**	}
+**	i = -1;
+**	while (++i < THREADS)
+**		pthread_join(id_arr[i], NULL);
+**	draw_gun(*doom);
+**	SDL_UpdateWindowSurface((*doom)->window);
+**	(*doom)->changed = 0;
+**	return (NULL);
+**	}
+*/
+
+void					*draw_sdl_threads(t_doom *doom)
 {
 	t_thread_args	*args;
 	int				start;
 	int				end;
-	pthread_t		id_arr[THREADS];
+	SDL_Thread		*id_arr[THREADS];
 	int				i;
 
 	i = -1;
@@ -79,44 +107,16 @@ void					*draw_threads(t_doom **doom)
 	end = W / THREADS;
 	while (++i < THREADS)
 	{
-		args = create_args(*doom, start, end);
-		pthread_create(&(id_arr[i]), NULL, &draw_rays_thread, args);
+		args = create_args(doom, start, end);
+		id_arr[i] = SDL_CreateThread(draw_rays_thread, NULL, args);
 		start = end;
 		end = end + W / THREADS;
 	}
 	i = -1;
 	while (++i < THREADS)
-		pthread_join(id_arr[i], NULL);
-	draw_gun(*doom);
-	SDL_UpdateWindowSurface((*doom)->window);
-	(*doom)->changed = 0;
+		SDL_WaitThread(id_arr[i], NULL);
+	draw_gun(doom);
+	SDL_UpdateWindowSurface(doom->window);
+	doom->changed = 0;
 	return (NULL);
 }
-
-/*
-** void					*draw_SDL_threads(t_doom *doom)
-**{
-**	t_thread_args	*args;
-**	int				start;
-**	int				end;
-**	SDL_Thread		*id_arr[THREADS];
-**	int				i;
-**
-**	i = -1;
-**	start = 0;
-**	end = W / THREADS;
-**	while (++i < THREADS)
-**	{
-**		args = create_args(doom, start, end);
-**		id_arr[i] = SDL_CreateThread(draw_rays_thread, NULL, args);
-**		start = end + 1;
-**		end = end + W / THREADS;
-**	}
-**	i = -1;
-**	while (++i < THREADS)
-**		SDL_WaitThread(id_arr[i], NULL);
-**	draw_gun(doom);
-**	SDL_UpdateWindowSurface(doom->window);
-**	return (NULL);
-**}
-*/
