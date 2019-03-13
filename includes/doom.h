@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/13 13:14:32 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/13 16:32:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ typedef struct	s_vector
 	double		y;
 }				t_vector;
 
+typedef struct	s_sprite
+{
+	double		x;
+	double		y;
+	int			tn;
+	t_pixel		draw_start;
+	t_pixel		draw_end;
+}				t_sprite;
+
 typedef struct	s_doom
 {
 	SDL_Window	*window;
@@ -52,9 +61,13 @@ typedef struct	s_doom
 	int			**map;
 	int			running;
 	int			vertical;
-	SDL_Surface	*textures[6];
+	SDL_Surface	*textures[9];
 	SDL_Surface	*gun;
 	Mix_Music	*music;
+	t_sprite	sprites[4];
+	double		z_buffer[W];
+	int			sprite_order[4];
+	double		sprite_distance[4];
 	int			changed;
 	t_vector	dir;
 	t_vector	pos;
@@ -104,5 +117,6 @@ void			floor_casting(t_ray ray, t_doom *doom, int x);
 int				read_music(t_doom **doom);
 void			*draw_threads(t_doom **doom);
 void			*draw_sdl_threads(t_doom *doom);
+void			draw_sprites(t_doom *doom);
 
 #endif

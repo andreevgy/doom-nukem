@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:17:36 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/12 11:54:56 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/13 16:24:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,18 @@ int					read_textures(t_doom **doom)
 	!load_texture(doom, 2, "assets/textures/mossy.png") ||
 	!load_texture(doom, 3, "assets/textures/redbrick.png") ||
 	!load_texture(doom, 4, "assets/textures/greystone.png") ||
-	!load_texture(doom, 5, "assets/textures/wood.png"))
+	!load_texture(doom, 5, "assets/textures/wood.png") ||
+	!load_texture(doom, 6, "assets/textures/pillar.png") ||
+	!load_texture(doom, 7, "assets/textures/barrel.png") ||
+	!load_texture(doom, 8, "assets/textures/greenlight.png"))
 		return (0);
 	gun = IMG_Load_RW(
 		SDL_RWFromFile("assets/textures/gun.png", "rb"), 1);
 	if (!((*doom)->textures[0]) || !((*doom)->textures[1]) ||
 		!((*doom)->textures[2]) || !((*doom)->textures[3]) ||
-		!((*doom)->textures[4]) || !((*doom)->textures[5]) || !gun)
+		!((*doom)->textures[4]) || !((*doom)->textures[5]) ||
+		!((*doom)->textures[6]) || !((*doom)->textures[7]) ||
+		!((*doom)->textures[8]) || !gun)
 		return (0);
 	(*doom)->gun = resize_gun(gun);
 	return (1);

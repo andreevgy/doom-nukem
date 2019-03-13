@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 15:28:03 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/13 12:49:56 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/13 14:27:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void		ray(t_doom *doom, int i)
 	while (ray.hit == 0)
 	{
 		move_ray(&ray);
-		if (doom->map[ray.map.y][ray.map.x] != 0)
+		if (doom->map[ray.map.y][ray.map.x] > 0)
 			ray.hit = 1;
 	}
 	if (ray.side == 0)
@@ -145,5 +145,6 @@ void		ray(t_doom *doom, int i)
 	ray.lh = abs((int)(H / ray.wall_dist));
 	ray.start_end.x = (-ray.lh / 2 + H / 2 + doom->vertical);
 	ray.start_end.y = (ray.lh / 2 + H / 2 + doom->vertical);
+	doom->z_buffer[i] = ray.wall_dist;
 	draw_line(ray, doom, i);
 }

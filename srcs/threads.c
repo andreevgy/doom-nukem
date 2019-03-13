@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 17:58:55 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/13 13:14:55 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/13 14:54:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void					*draw_sdl_threads(t_doom *doom)
 	i = -1;
 	while (++i < THREADS)
 		SDL_WaitThread(id_arr[i], NULL);
+	draw_sprites(doom);
 	draw_gun(doom);
 	SDL_UpdateWindowSurface(doom->window);
 	doom->changed = 0;
