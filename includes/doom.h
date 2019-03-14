@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/13 16:32:06 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/14 14:52:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct	s_sprite
 	double		x;
 	double		y;
 	int			tn;
+	double		distance;
 	t_pixel		draw_start;
 	t_pixel		draw_end;
 }				t_sprite;
@@ -66,8 +67,6 @@ typedef struct	s_doom
 	Mix_Music	*music;
 	t_sprite	sprites[4];
 	double		z_buffer[W];
-	int			sprite_order[4];
-	double		sprite_distance[4];
 	int			changed;
 	t_vector	dir;
 	t_vector	pos;

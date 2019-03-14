@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 14:31:21 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/13 16:36:32 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/14 14:56:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,30 @@ static void		init_sprite(t_doom *doom, int i)
 	draw_sprite(doom->sprites[i], tr, doom);
 }
 
+void			sort_sprites(t_doom *doom)
+{
+	int			i;
+	int			k;
+	t_sprite	temp;
+
+	i = 0;
+	while (i < 4)
+	{
+		k = 0;
+		while (k < 3)
+		{
+			if (doom->sprites[k].distance < doom->sprites[k + 1].distance)
+			{
+				temp = doom->sprites[k];
+				doom->sprites[k] = doom->sprites[k + 1];
+				doom->sprites[k + 1] = temp;
+			}
+			k++;
+		}
+		i++;
+	}
+}
+
 void			draw_sprites(t_doom *doom)
 {
 	int	i;
@@ -85,13 +109,14 @@ void			draw_sprites(t_doom *doom)
 	i = -1;
 	while (++i < 4)
 	{
-		doom->sprite_order[i] = i;
-		doom->sprite_distance[i] = ((doom->pos.x - doom->sprites[i].x) *
+		doom->sprites[i].distance = ((doom->pos.x - doom->sprites[i].x) *
 		(doom->pos.x - doom->sprites[i].x) + (doom->pos.y - doom->sprites[i].y)
 		* (doom->pos.y - doom->sprites[i].y));
 	}
-	// Добавить тут сортировку по дистанции
+	sort_sprites(doom);
 	i = -1;
 	while (++i < 4)
 		init_sprite(doom, i);
 }
+
+

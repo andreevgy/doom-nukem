@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 15:24:40 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/13 16:44:32 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/14 14:56:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	create_sprites(t_doom **doom)
 {
-	(*doom)->sprites[0] = (t_sprite){10, 10, 6, {0, 0, 0}, {0, 0, 0}};
-	(*doom)->sprites[1] = (t_sprite){10, 11, 8, {0, 0, 0}, {0, 0, 0}};
-	(*doom)->sprites[2] = (t_sprite){11.5, 12, 6, {0, 0, 0}, {0, 0, 0}};
-	(*doom)->sprites[3] = (t_sprite){12, 12, 7, {0, 0, 0}, {0, 0, 0}};
+	(*doom)->sprites[0] = (t_sprite){10, 10, 6, 0.0, {0, 0, 0}, {0, 0, 0}};
+	(*doom)->sprites[1] = (t_sprite){10, 11, 8, 0.0, {0, 0, 0}, {0, 0, 0}};
+	(*doom)->sprites[2] = (t_sprite){11.5, 12, 6, 0.0, {0, 0, 0}, {0, 0, 0}};
+	(*doom)->sprites[3] = (t_sprite){12, 12, 7, 0.0, {0, 0, 0}, {0, 0, 0}};
 }
 
 t_doom	*create_doom(char *name)
