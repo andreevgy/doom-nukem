@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:17:36 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/23 14:33:06 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/23 16:58:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static SDL_Surface	*create_surface(int width, int heigth)
 static void			set_pixel(SDL_Surface *gun, SDL_Surface *new_gun,
 						t_pixel gi, t_pixel *ngi)
 {
-	*(Uint32*)(new_gun->pixels + (ngi->y * 128 * 4 + ngi->x)
+	*(Uint32*)(new_gun->pixels + (ngi->y * 128 * 3 + ngi->x)
 	* new_gun->format->BytesPerPixel) = *(Uint32*)(gun->pixels
 	+ (gi.y * 128 + gi.x) * new_gun->format->BytesPerPixel);
 	ngi->x++;
@@ -45,20 +45,20 @@ static SDL_Surface	*resize_gun(SDL_Surface *gun)
 	t_pixel		ngi;
 	t_pixel		iter_zoom;
 
-	new_gun = create_surface(512, 512);
+	new_gun = create_surface(384, 384);
 	gi.y = -1;
 	ngi.y = 0;
 	while (++gi.y < 128)
 	{
 		iter_zoom.y = -1;
-		while (++iter_zoom.y < 4)
+		while (++iter_zoom.y < 3)
 		{
 			gi.x = -1;
 			ngi.x = 0;
 			while (++gi.x < 128)
 			{
 				iter_zoom.x = -1;
-				while (++iter_zoom.x < 4)
+				while (++iter_zoom.x < 3)
 					set_pixel(gun, new_gun, gi, &ngi);
 			}
 			ngi.y++;

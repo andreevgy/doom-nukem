@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/16 20:33:14 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/23 17:01:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 
 # define MOVE_SPEED 0.10
 # define RS 0.05
-# define W 1600
-# define H 1200
+# define W 1200
+# define H 700
 # define THREADS 10
 # define NULL_CHECK(val) if (val == NULL) exit(12);
 # define TS 64
@@ -65,7 +65,8 @@ typedef struct	s_doom
 	SDL_Surface	*textures[9];
 	SDL_Surface	*gun;
 	Mix_Music	*music;
-	t_sprite	sprites[4];
+	int			sprites_num;
+	t_sprite	*sprites;
 	double		z_buffer[W];
 	int			changed;
 	t_vector	dir;
@@ -117,5 +118,6 @@ int				read_music(t_doom **doom);
 void			*draw_threads(t_doom **doom);
 void			*draw_sdl_threads(t_doom *doom);
 void			draw_sprites(t_doom *doom);
+void			init_sprite(t_doom **doom, t_pixel pos, int	tex_num);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 12:33:39 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/12 11:54:43 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/23 17:01:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static int		fill_map(t_doom *doom, int fd, t_pixel *size)
 			if (!split[iter.x])
 				return (0);
 			doom->map[iter.y][iter.x] = ft_atoi(split[iter.x]);
+			if (doom->map[iter.y][iter.x] < 0 && doom->map[iter.y][iter.x] != 1)
+				doom->sprites_num++;
 			iter.x++;
 		}
 		iter.y++;

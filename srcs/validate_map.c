@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 15:13:00 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/23 16:01:07 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/23 17:08:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int			validate_map(t_doom *doom, t_pixel *size)
 {
 	t_pixel i;
 
+	doom->sprites = ft_memalloc(sizeof(t_sprite) * doom->sprites_num);
 	if (!check_horizontal_borders(doom, size))
 		return (0);
 	i.y = 0;
@@ -63,6 +64,8 @@ int			validate_map(t_doom *doom, t_pixel *size)
 				set_initial_pos(doom, i);
 			else if (doom->map[i.y][i.x] == -1 && doom->pos.x && doom->pos.y)
 				return (0);
+			if (doom->map[i.y][i.x] < 0 && doom->map[i.y][i.x] != -1)
+				init_sprite(&doom, i, doom->map[i.y][i.x]);
 		}
 	}
 	if (!doom->pos.x && !doom->pos.y)

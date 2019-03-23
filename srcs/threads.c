@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 17:58:55 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/23 16:06:51 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/23 16:59:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,21 @@ static void				draw_gun(t_doom *doom)
 	t_pixel	it;
 	Uint32	tr;
 
-	tr = *(Uint32*)doom->gun->pixels + (0 * 128 + 0)
+	tr = *(Uint32*)doom->gun->pixels + (0 * 384 + 0)
 			* doom->surface->format->BytesPerPixel;
 	it.y = -1;
-	iw.y = H - 512;
-	while (++it.y < 512)
+	iw.y = H - 384;
+	while (++it.y < 384)
 	{
 		it.x = -1;
-		iw.x = W / 2 - 256;
-		while (++it.x < 512)
+		iw.x = W / 2 - 192;
+		while (++it.x < 384)
 		{
-			if (tr != *(Uint32*)(doom->gun->pixels + (it.y * 512 + it.x)
+			if (tr != *(Uint32*)(doom->gun->pixels + (it.y * 384 + it.x)
 			* doom->surface->format->BytesPerPixel))
 				*(Uint32*)(doom->surface->pixels + (iw.y * W + iw.x)
 				* doom->surface->format->BytesPerPixel) = *(Uint32*)
-				(doom->gun->pixels + (it.y * 512 + it.x)
+				(doom->gun->pixels + (it.y * 384 + it.x)
 				* doom->surface->format->BytesPerPixel);
 			iw.x++;
 		}

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 15:28:03 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/23 15:57:48 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/23 16:20:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void		ray(t_doom *doom, int i)
 	else
 		ray.wall_dist = (ray.map.y - doom->pos.y
 							+ (1 - ray.step.y) / 2) / ray.dir.y;
-	ray.lh = abs((int)(H / ray.wall_dist));
+	ray.lh = abs((int)((H / ray.wall_dist)));
 	ray.start_end.x = (-ray.lh / 2 + H / 2 + doom->vertical);
 	ray.start_end.y = (ray.lh / 2 + H / 2 + doom->vertical);
 	doom->z_buffer[i] = ray.wall_dist;

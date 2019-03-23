@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 14:31:21 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/23 15:54:14 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/23 17:07:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_vector transform, t_doom *doom)
 		}
 }
 
-static void		init_sprite(t_doom *doom, int i)
+static void		init_drawing_sprite(t_doom *doom, int i)
 {
 	t_vector	sprite;
 	t_vector	tr;
@@ -84,10 +84,10 @@ void			sort_sprites(t_doom *doom)
 	t_sprite	temp;
 
 	i = 0;
-	while (i < 4)
+	while (i < doom->sprites_num)
 	{
 		k = 0;
-		while (k < 3)
+		while (k < doom->sprites_num - 1)
 		{
 			if (doom->sprites[k].distance < doom->sprites[k + 1].distance)
 			{
@@ -106,7 +106,7 @@ void			draw_sprites(t_doom *doom)
 	int	i;
 
 	i = -1;
-	while (++i < 4)
+	while (++i < doom->sprites_num)
 	{
 		doom->sprites[i].distance = ((doom->pos.x - doom->sprites[i].x) *
 		(doom->pos.x - doom->sprites[i].x) + (doom->pos.y - doom->sprites[i].y)
@@ -114,6 +114,6 @@ void			draw_sprites(t_doom *doom)
 	}
 	sort_sprites(doom);
 	i = -1;
-	while (++i < 4)
-		init_sprite(doom, i);
+	while (++i < doom->sprites_num)
+		init_drawing_sprite(doom, i);
 }
