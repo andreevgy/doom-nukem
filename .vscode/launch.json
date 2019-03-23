@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/doom-nukem",
-			"args": ["./maps/test1.wolf"],
+			"args": ["./maps/test2.wolf"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

@@ -15,7 +15,7 @@
                 "kind": "test",
                 "isDefault": true
             },
-            "args": ["./maps/test1.wolf"],
+            "args": ["./maps/test2.wolf"],
             "type": "shell",
             "dependsOn": "build",
             "command": "./doom-nukem"

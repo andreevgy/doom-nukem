@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 15:28:03 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/14 14:39:14 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/23 15:57:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,9 @@
 **	Returns number of texture depending on side of wall and direction
 */
 
-static int	get_texture(int side, t_vector dir)
+static int	get_texture(t_ray ray, t_doom *doom)
 {
-	if (side == 0 && dir.x > 0)
-		return (0);
-	else if (side == 0 && dir.x < 0)
-		return (1);
-	else if (side == 1 && dir.y > 0)
-		return (2);
-	else
-		return (3);
+	return (doom->map[ray.map.y][ray.map.x]);
 }
 
 /*
@@ -41,7 +34,7 @@ static void	draw_line(t_ray ray, t_doom *doom, int x)
 
 	pixel.x = x;
 	pixel.y = ray.start_end.x - 1 > 0 ? ray.start_end.x - 1 : 0;
-	ray.tex_num = get_texture(ray.side, ray.dir);
+	ray.tex_num = get_texture(ray, doom);
 	if (ray.side == 0)
 		ray.wall_x = doom->pos.y + ray.wall_dist * ray.dir.y;
 	else
@@ -53,7 +46,7 @@ static void	draw_line(t_ray ray, t_doom *doom, int x)
 	if (ray.side == 1 && ray.dir.y < 0)
 		t.x = TS - t.x - 1;
 	while (++pixel.y < ray.start_end.y)
-		if (pixel.y < H && pixel.x < W)
+		if (pixel.y < H && pixel.x < W && pixel.y >= 0 && pixel.y >= 0)
 			*(Uint32*)(doom->surface->pixels + ((pixel.y) * W + pixel.x)
 			* doom->surface->format->BytesPerPixel) =
 			*(Uint32*)(doom->textures[ray.tex_num]->pixels + (TS
