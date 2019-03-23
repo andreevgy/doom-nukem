@@ -6,14 +6,12 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 17:22:13 by fmacgyve          #+#    #+#              #
-#    Updated: 2019/03/13 14:45:26 by marvin           ###   ########.fr        #
+#    Updated: 2019/03/23 14:31:12 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= doom-nukem
 FLAGS		= -Wall -Wextra -Werror -O0 -g
-LIBS		= -I ./libs/SDL2_image.framework/Versions/A/Headers -I ./libs/SDL2_mixer.framework/Versions/A/Headers -I ./libs/SDL2.framework/Versions/A/Headers -I ./includes
-FRAMEWORKS	= -F ./libs/ -framework SDL2 -F ./libs/ -framework SDL2_image -F ./libs/ -framework SDL2_mixer
 
 SRC_DIR		= ./srcs
 OBJ_DIR		= ./obj
@@ -26,6 +24,8 @@ HFILES		= get_next_line.h libft.h doom.h
 RAW_CFILES	= $(addprefix $(SRC_DIR)/,$(CFILES))
 RAW_OFILES	= $(addprefix $(OBJ_DIR)/,$(OFILES))
 RAW_HFILES	= $(addprefix $(INCL_DIR)/,$(HFILES))
+SDL_LIBS	= $(shell pkg-config --libs sdl2 SDL2_mixer SDL2_image)
+INCLUDES	= -I $(INCL_DIR)
 
 all: $(OBJ_DIR) $(NAME) $(RAW_HFILES)
 
@@ -34,10 +34,10 @@ $(OBJ_DIR):
 
 $(NAME): $(RAW_OFILES)
 	make -C ./libft
-	gcc $(FLAGS) $(LIBS) $(FRAMEWORKS) $(RAW_OFILES) libft/libft.a -o $(NAME)
+	gcc $(FLAGS) $(INCLUDES) $(RAW_OFILES) $(SDL_LIBS) $(shell sdl2-config --cflags --libs) libft/libft.a -o $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(RAW_HFILES)
-	gcc $(FLAGS) $(LIBS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(RAW_HFILES) Makefile
+	gcc $(FLAGS) $(INCLUDES) $(shell sdl2-config --cflags) -c $< -o $@
 
 clean:
 	make clean -C ./libft

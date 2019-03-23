@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/14 14:52:39 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/16 20:33:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "SDL_image.h"
 # include "SDL_mixer.h"
 
-# define MOVE_SPEED 0.25
+# define MOVE_SPEED 0.10
 # define RS 0.05
 # define W 1600
 # define H 1200

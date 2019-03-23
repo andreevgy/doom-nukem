@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 17:58:55 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/13 14:54:50 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/23 14:36:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void				draw_gun(t_doom *doom)
 
 void					*draw_sdl_threads(t_doom *doom)
 {
-	t_thread_args	*args;
+	t_thread_args	*args[THREADS];
 	int				start;
 	int				end;
 	SDL_Thread		*id_arr[THREADS];
@@ -107,14 +107,17 @@ void					*draw_sdl_threads(t_doom *doom)
 	end = W / THREADS;
 	while (++i < THREADS)
 	{
-		args = create_args(doom, start, end);
-		id_arr[i] = SDL_CreateThread(draw_rays_thread, NULL, args);
+		args[i] = create_args(doom, start, end);
+		id_arr[i] = SDL_CreateThread(draw_rays_thread, NULL, args[i]);
 		start = end;
 		end = end + W / THREADS;
 	}
 	i = -1;
 	while (++i < THREADS)
+	{
 		SDL_WaitThread(id_arr[i], NULL);
+		free(args[i]);
+	}
 	draw_sprites(doom);
 	draw_gun(doom);
 	SDL_UpdateWindowSurface(doom->window);

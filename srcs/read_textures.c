@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:17:36 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/13 16:24:43 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/23 14:33:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,8 @@ static SDL_Surface	*resize_gun(SDL_Surface *gun)
 
 static int			load_texture(t_doom **doom, int i, char *name)
 {
-	SDL_RWops *ops;
-
-	ops = SDL_RWFromFile(name, "rb");
-	if (!ops)
-		return (0);
-	(*doom)->textures[i] = IMG_Load_RW(ops, 1);
+	(*doom)->textures[i] = SDL_ConvertSurfaceFormat(IMG_Load(name),
+							SDL_PIXELFORMAT_ARGB8888, 0);
 	if (!((*doom)->textures[i]) || (*doom)->textures[i]->w != TS
 		|| (*doom)->textures[i]->h != TS)
 		return (0);
@@ -84,6 +80,7 @@ static int			load_texture(t_doom **doom, int i, char *name)
 int					read_textures(t_doom **doom)
 {
 	SDL_Surface *gun;
+	SDL_Surface *gun_start;
 
 	if (!load_texture(doom, 0, "assets/textures/colorstone.png") ||
 	!load_texture(doom, 1, "assets/textures/bluestone.png") ||
@@ -95,8 +92,9 @@ int					read_textures(t_doom **doom)
 	!load_texture(doom, 7, "assets/textures/barrel.png") ||
 	!load_texture(doom, 8, "assets/textures/greenlight.png"))
 		return (0);
-	gun = IMG_Load_RW(
-		SDL_RWFromFile("assets/textures/gun.png", "rb"), 1);
+	gun_start = IMG_Load("assets/textures/gun.png");
+	gun = SDL_ConvertSurfaceFormat(gun_start, SDL_PIXELFORMAT_ARGB8888, 0);
+	SDL_FreeSurface(gun_start);
 	if (!((*doom)->textures[0]) || !((*doom)->textures[1]) ||
 		!((*doom)->textures[2]) || !((*doom)->textures[3]) ||
 		!((*doom)->textures[4]) || !((*doom)->textures[5]) ||
