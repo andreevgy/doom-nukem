@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 17:22:13 by fmacgyve          #+#    #+#              #
-#    Updated: 2019/03/26 18:23:24 by marvin           ###   ########.fr        #
+#    Updated: 2019/03/28 19:55:07 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC_DIR		= ./srcs
 OBJ_DIR		= ./obj
 INCL_DIR	= ./includes
 
-CFILES		= main.c doom.c get_next_line.c read_map.c validate_map.c ray.c hooks.c movement.c rotating.c read_textures.c floor_casting.c read_music.c threads.c sprites.c init_sprite.c small_blocks.c
+CFILES		= main.c doom.c get_next_line.c read_map.c validate_map.c ray.c hooks.c movement.c rotating.c read_textures.c floor_casting.c read_music.c threads.c sprites.c init_sprite.c block.c
 OFILES		= $(CFILES:.c=.o)
 HFILES		= get_next_line.h libft.h doom.h
 

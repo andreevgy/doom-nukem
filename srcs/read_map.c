@@ -6,21 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 12:33:39 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/28 18:41:55 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 20:04:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-
-static void	set_initial_pos(t_doom *doom, t_pixel pos)
-{
-	if (!doom->pos.x && !doom->pos.y)
-	{
-		doom->pos.x = pos.x + 0.5;
-		doom->pos.y = pos.y + 0.5;
-	}
-	doom->map[pos.y][pos.x] = 0;
-}
 
 static t_pixel	*create_pixel(int x, int y)
 {
@@ -75,13 +65,7 @@ static void		split_commas(t_doom *doom, t_pixel it, char *split)
 
 	new_split = ft_strsplit(split, ',');
 	height = (double)ft_atoi(new_split[1]) / 10;
-	if (ft_atoi(new_split[0]) == -1)
-	{
-		set_initial_pos(doom, it);
-		doom->map[it.y][it.x] = create_block(height, 1);
-	}
-	else
-		doom->map[it.y][it.x] = create_block(height, ft_atoi(new_split[0]));
+	doom->map[it.y][it.x] = create_block(height, ft_atoi(new_split[0]));
 }
 
 static int		fill_map(t_doom *doom, int fd, t_pixel *size)
@@ -119,7 +103,7 @@ void			print_map(t_doom *doom, t_pixel *size)
 		iter.x = -1;
 		while (++iter.x < size->x)
 		{
-			printf("%f\t", doom->map[iter.y][iter.x]->height);
+			printf("%d\t", doom->map[iter.y][iter.x]->texture);
 		}
 		printf("\n");
 	}
@@ -141,6 +125,6 @@ int				read_map(t_doom **doom, char *name)
 	if (!size || !malloc_map(*doom, size) || !fill_map(*doom, fd, size)
 				|| !validate_map(*doom, size))
 		return (0);
-	// print_map(*doom, size);
+	print_map(*doom, size);
 	return (1);
 }

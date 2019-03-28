@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 17:58:55 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/28 14:05:43 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 20:33:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,6 @@ static t_thread_args	*create_args(t_doom *doom, int start, int end)
 	args->end = end;
 	return (args);
 }
-
-// static void				draw_ceil_floor(t_doom *doom, int x)
-// {
-// 	int	i;
-
-// 	i = -1;
-// 	while (i++ < H / 2 - 1)
-// 		*(Uint32*)(doom->surface->pixels + (i * W + x)
-// 				* doom->surface->format->BytesPerPixel) = 0x658138;
-// 	while (i++ < H - 1)
-// 				*(Uint32*)(doom->surface->pixels + (i * W + x)
-// 				* doom->surface->format->BytesPerPixel) = 0x593D26;
-// }
-
 
 void		draw_background(t_doom *doom, int x)
 {

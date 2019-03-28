@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 15:28:03 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/28 16:56:25 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 21:24:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void		draw_small_wall(t_ray *ray, t_doom* doom, int x)
 	t_pixel	pixel;
 	t_pixel	t;
 	int height;
+	t_ray	tmpray;
 
 	ray->lh =  abs((int)((H / ray->wall_dist)));
 	height = ray->lh * doom->map[ray->map.y][ray->map.x]->height;
@@ -158,6 +159,22 @@ void		draw_small_wall(t_ray *ray, t_doom* doom, int x)
 	}
 	if (ray->start_end.x < ray->max_y)
 		ray->max_y = ray->start_end.x; // Тут отрисовка пола
+	tmpray = *ray;
+	move_ray(&tmpray);
+	calculate(&tmpray, doom);
+	tmpray.lh =  abs((int)((H / tmpray.wall_dist)));
+	height = tmpray.lh * doom->map[ray->map.y][ray->map.x]->height;
+	tmpray.start_end.x = (-height / 2 + H / 2 + doom->vertical) + (tmpray.lh - height) / 2;
+	tmpray.start_end.y = (height / 2 + H / 2 + doom->vertical) + (tmpray.lh - height) / 2;
+	pixel.y = tmpray.start_end.x - 1 > 0 ? tmpray.start_end.x - 1 : 0;
+	while (++pixel.y < ray->start_end.x)
+	{
+		if (pixel.y < H && pixel.x < W && pixel.y >= 0 && pixel.x >= 0 && pixel.y < tmpray.max_y)
+			*(Uint32*)(doom->surface->pixels + ((pixel.y) * W + pixel.x)
+			* doom->surface->format->BytesPerPixel) = 0x00FF00;
+	}
+	if (tmpray.start_end.x < ray->max_y)
+		ray->max_y = tmpray.start_end.x;
 }
 
 /*
@@ -176,7 +193,7 @@ void		new_raycast(t_doom *doom, int x)
 	while (ray.hit == 0)
 	{
 		move_ray(&ray);
-		if (doom->map[ray.map.y][ray.map.x]->height > 0.0)
+		if (ray.map.y >= 0 && ray.map.x >= 0 && doom->map[ray.map.y][ray.map.x]->height > 0.0)
 		{
 			calculate(&ray, doom);
 			if (doom->map[ray.map.y][ray.map.x]->height == 1.0)
