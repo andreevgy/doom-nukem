@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 15:28:03 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/28 21:24:14 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 22:38:35 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void		draw_small_wall(t_ray *ray, t_doom* doom, int x)
 		if (pixel.y < H && pixel.x < W && pixel.y >= 0 && pixel.x >= 0 && pixel.y < ray->max_y)
 			*(Uint32*)(doom->surface->pixels + ((pixel.y) * W + pixel.x)
 			* doom->surface->format->BytesPerPixel) = *(Uint32*)(doom->textures[0]->pixels + (TS
-			* (((pixel.y - ray->start_end.x) * TS) /  height) + t.x)
+			* (((pixel.y - ray->start_end.x) * TS) / ray->lh) + t.x)
 			* doom->textures[0]->format->BytesPerPixel);
 	}
 	if (ray->start_end.x < ray->max_y)
