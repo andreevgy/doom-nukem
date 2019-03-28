@@ -6,13 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 15:24:40 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/27 17:56:27 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 16:41:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-
-
 
 t_doom	*create_doom(char *name)
 {

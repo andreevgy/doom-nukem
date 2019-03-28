@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/28 14:06:38 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 16:47:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct	s_smallwall
 	t_pixel		pos;
 	double		height;
 	int			side;
-	struct s_smallwall	*next;
 	double		dist;
 }				t_smallwall;
 
@@ -78,6 +77,7 @@ typedef struct	s_doom
 	t_block		***map;
 	int			running;
 	int			vertical;
+	t_pixel		size;
 	SDL_Surface	*textures[9];
 	t_smallwall	small_walls[4];
 	SDL_Surface	*gun;
