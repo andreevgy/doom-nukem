@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/28 16:47:57 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 22:06:45 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include "SDL.h"
 # include "SDL_image.h"
 # include "SDL_mixer.h"
+
+// debugging
+#include <stdio.h>
 
 # define MOVE_SPEED 0.10
 # define RS 0.05

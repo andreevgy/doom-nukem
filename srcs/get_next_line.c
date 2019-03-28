@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmacgyve <fmacgyve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 18:58:48 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/02/21 17:10:54 by fmacgyve         ###   ########.fr       */
+/*   Updated: 2019/03/28 22:07:58 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 #include <fcntl.h>
 
 /*
