@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/23 17:01:36 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 14:06:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,32 @@ typedef struct	s_sprite
 	t_pixel		draw_end;
 }				t_sprite;
 
+typedef struct s_block
+{
+	double		height;
+	int			texture;
+}				t_block;
+
+
+typedef struct	s_smallwall
+{
+	t_pixel		pos;
+	double		height;
+	int			side;
+	struct s_smallwall	*next;
+	double		dist;
+}				t_smallwall;
+
 typedef struct	s_doom
 {
 	SDL_Window	*window;
 	SDL_Surface	*surface;
 	SDL_Event	event;
-	int			**map;
+	t_block		***map;
 	int			running;
 	int			vertical;
 	SDL_Surface	*textures[9];
+	t_smallwall	small_walls[4];
 	SDL_Surface	*gun;
 	Mix_Music	*music;
 	int			sprites_num;
@@ -83,6 +100,7 @@ typedef struct	s_ray
 	t_vector	delta_dist;
 	t_pixel		step;
 	t_pixel		start_end;
+	int			max_y;
 	double		wall_x;
 	int			tex_num;
 	int			hit;
@@ -119,5 +137,9 @@ void			*draw_threads(t_doom **doom);
 void			*draw_sdl_threads(t_doom *doom);
 void			draw_sprites(t_doom *doom);
 void			init_sprite(t_doom **doom, t_pixel pos, int	tex_num);
+void 			add_wall(t_smallwall **wall, t_pixel pos, double height, double dist, int side);
+t_smallwall		*create_small_wall(t_pixel pos, double height, double dist, int side);
+t_block			*create_block(double height, int texture);
+void			new_raycast(t_doom *doom, int x);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 15:10:01 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/23 16:19:34 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/27 18:49:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static void		draw_pixel(t_ray ray, t_doom *doom,
 	current_floor.y = weigth * floor_wall.y + (1.0 - weigth) * doom->pos.y;
 	floor_tex.x = (int)(current_floor.x * TS) % TS;
 	floor_tex.y = (int)(current_floor.y * TS) % TS;
-	if (pixel.y < H && pixel.x < W)
-		*(Uint32*)(doom->surface->pixels + (pixel.y * W + pixel.x)
+	if (pixel.y< H && pixel.x < W)
+		*(Uint32*)(doom->surface->pixels + ((pixel.y) * W + pixel.x)
 		* doom->surface->format->BytesPerPixel) =
 		*(Uint32*)(doom->textures[4]->pixels + (TS * floor_tex.y + floor_tex.x)
 		* doom->textures[4]->format->BytesPerPixel);

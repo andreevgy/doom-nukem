@@ -6,11 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 15:24:40 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/23 17:09:46 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/27 17:56:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+
+
 
 t_doom	*create_doom(char *name)
 {
@@ -29,7 +31,7 @@ t_doom	*create_doom(char *name)
 	doom->sprites_num = 0;
 	if (!read_map(&doom, name) || !read_textures(&doom) || !read_music(&doom))
 		return (NULL);
-	Mix_PlayMusic(doom->music, -1);
+	//Mix_PlayMusic(doom->music, -1);
 	doom->window = SDL_CreateWindow("doom3d", SDL_WINDOWPOS_UNDEFINED,
 				SDL_WINDOWPOS_UNDEFINED, W, H, SDL_WINDOW_ALLOW_HIGHDPI);
 	doom->surface = SDL_GetWindowSurface(doom->window);

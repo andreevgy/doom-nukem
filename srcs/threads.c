@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 17:58:55 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/23 16:59:02 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 14:05:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,38 @@ static t_thread_args	*create_args(t_doom *doom, int start, int end)
 	return (args);
 }
 
+// static void				draw_ceil_floor(t_doom *doom, int x)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	while (i++ < H / 2 - 1)
+// 		*(Uint32*)(doom->surface->pixels + (i * W + x)
+// 				* doom->surface->format->BytesPerPixel) = 0x658138;
+// 	while (i++ < H - 1)
+// 				*(Uint32*)(doom->surface->pixels + (i * W + x)
+// 				* doom->surface->format->BytesPerPixel) = 0x593D26;
+// }
+
+
+void		draw_background(t_doom *doom, int x)
+{
+	int y;
+	y = 0;
+	while (y < H / 2)
+	{
+		*(Uint32*)(doom->surface->pixels + (y * W + x)
+			* doom->surface->format->BytesPerPixel) = 0x1e6047;
+			y++;
+	}
+	while (y < H)
+	{
+		*(Uint32*)(doom->surface->pixels + (y * W + x)
+			* doom->surface->format->BytesPerPixel) = 0x668b8b;
+			y++;
+	}
+}
+
 static int				draw_rays_thread(void *param)
 {
 	int				i;
@@ -32,7 +64,8 @@ static int				draw_rays_thread(void *param)
 	i = args->start;
 	while (i < args->end)
 	{
-		ray(args->doom, i);
+		draw_background(args->doom, i);
+		new_raycast(args->doom, i);
 		i++;
 	}
 	return (0);
