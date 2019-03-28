@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 17:58:55 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/28 14:05:43 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 17:53:18 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static t_thread_args	*create_args(t_doom *doom, int start, int end)
 void		draw_background(t_doom *doom, int x)
 {
 	int y;
+
 	y = 0;
 	while (y < H / 2)
 	{

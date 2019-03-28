@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/28 14:06:38 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 19:51:17 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,13 @@
 # include "SDL_image.h"
 # include "SDL_mixer.h"
 
+// for debugging
+#include <stdio.h>
+
 # define MOVE_SPEED 0.10
 # define RS 0.05
-# define W 1200
-# define H 700
+# define W 2048
+# define H 1024
 # define THREADS 10
 # define NULL_CHECK(val) if (val == NULL) exit(12);
 # define TS 64
@@ -76,6 +79,7 @@ typedef struct	s_doom
 	SDL_Surface	*surface;
 	SDL_Event	event;
 	t_block		***map;
+	// is game run or not
 	int			running;
 	int			vertical;
 	SDL_Surface	*textures[9];
@@ -85,6 +89,7 @@ typedef struct	s_doom
 	int			sprites_num;
 	t_sprite	*sprites;
 	double		z_buffer[W];
+	// wtf is this
 	int			changed;
 	t_vector	dir;
 	t_vector	pos;

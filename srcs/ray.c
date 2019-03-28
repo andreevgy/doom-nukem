@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 15:28:03 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/28 16:01:19 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 21:18:32 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ void		new_raycast(t_doom *doom, int x)
 	ray.map.x = (int)doom->pos.x;
 	ray.map.y = (int)doom->pos.y;
 	ray.camera.x = 2 * x / (double)W - 1;
+	//printf("camera ray x %f\t", ray.camera.x);
 	init_ray(&ray, doom->pos, doom->dir, doom->plane);
 	while (ray.hit == 0)
 	{

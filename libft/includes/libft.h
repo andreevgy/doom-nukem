@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmacgyve <fmacgyve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 13:24:50 by fmacgyve          #+#    #+#             */
-/*   Updated: 2018/12/05 15:53:36 by fmacgyve         ###   ########.fr       */
+/*   Updated: 2019/03/28 16:44:13 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
-
 typedef struct	s_list
 {
 	void			*content;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 14:31:21 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/23 17:07:56 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 18:12:08 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,9 @@ void			draw_sprites(t_doom *doom)
 
 	i = -1;
 	while (++i < doom->sprites_num)
-	{
 		doom->sprites[i].distance = ((doom->pos.x - doom->sprites[i].x) *
 		(doom->pos.x - doom->sprites[i].x) + (doom->pos.y - doom->sprites[i].y)
 		* (doom->pos.y - doom->sprites[i].y));
-	}
 	sort_sprites(doom);
 	i = -1;
 	while (++i < doom->sprites_num)
