@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 12:33:39 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/27 16:28:57 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/28 18:41:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,20 @@ static int		malloc_map(t_doom *doom, t_pixel *size)
 	return (1);
 }
 
-static void		split_commas(t_doom *doom, t_pixel iter, char *split)
+static void		split_commas(t_doom *doom, t_pixel it, char *split)
 {
 	char	**new_split;
+	double	height;
 
 	new_split = ft_strsplit(split, ',');
+	height = (double)ft_atoi(new_split[1]) / 10;
 	if (ft_atoi(new_split[0]) == -1)
 	{
-		set_initial_pos(doom, iter);
-		doom->map[iter.y][iter.x] = create_block(((double)ft_atoi(new_split[1]) / 10), 1);
+		set_initial_pos(doom, it);
+		doom->map[it.y][it.x] = create_block(height, 1);
 	}
 	else
-		doom->map[iter.y][iter.x] = create_block(((double)ft_atoi(new_split[1]) / 10), ft_atoi(new_split[0]));
+		doom->map[it.y][it.x] = create_block(height, ft_atoi(new_split[0]));
 }
 
 static int		fill_map(t_doom *doom, int fd, t_pixel *size)
@@ -135,8 +137,9 @@ int				read_map(t_doom **doom, char *name)
 
 	fd = open(name, O_RDONLY);
 	size = read_size(fd);
+	(*doom)->size = *size;
 	if (!size || !malloc_map(*doom, size) || !fill_map(*doom, fd, size)
-				/*|| !validate_map(*doom, size)*/)
+				|| !validate_map(*doom, size))
 		return (0);
 	// print_map(*doom, size);
 	return (1);

@@ -6,7 +6,11 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 15:28:03 by fmacgyve          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/03/28 21:18:32 by ghalvors         ###   ########.fr       */
+=======
+/*   Updated: 2019/03/28 16:56:25 by marvin           ###   ########.fr       */
+>>>>>>> 8c6e4892ef04027acaa6e59f996db745a2f92050
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +24,19 @@
 static int	get_texture(t_ray ray, t_doom *doom)
 {
 	return (doom->map[ray.map.y][ray.map.x]->texture);
+}
+
+static void	calculate(t_ray *ray, t_doom *doom)
+{
+	if (ray->side == 0)
+		ray->wall_dist = (ray->map.x - doom->pos.x
+					+ (1 - ray->step.x) / 2) / ray->dir.x;
+	else
+		ray->wall_dist = (ray->map.y - doom->pos.y
+					+ (1 - ray->step.y) / 2) / ray->dir.y;
+	ray->lh = abs((int)((H / ray->wall_dist)));
+	ray->start_end.x = (-ray->lh / 2 + H / 2 + doom->vertical);
+	ray->start_end.y = (ray->lh / 2 + H / 2 + doom->vertical);
 }
 
 /*
@@ -45,15 +62,15 @@ static void	draw_line(t_ray *ray, t_doom *doom, int x)
 		t.x = TS - t.x - 1;
 	if (ray->side == 1 && ray->dir.y < 0)
 		t.x = TS - t.x - 1;
-	/*while (++pixel.y < ray->start_end.y)
+	while (++pixel.y < ray->start_end.y)
 		if (pixel.y < H && pixel.x < W && pixel.x >= 0 && pixel.y >= 0 && pixel.y < ray->max_y)
 			*(Uint32*)(doom->surface->pixels + ((pixel.y) * W + pixel.x)
 			* doom->surface->format->BytesPerPixel) =
 			*(Uint32*)(doom->textures[ray->tex_num]->pixels + (TS
 			* (((pixel.y - ray->start_end.x) * TS) / ray->lh) + t.x)
-			* doom->textures[ray->tex_num]->format->BytesPerPixel);*/
-	ray->max_y = ray->start_end.x;
-	//floor_casting(ray, doom, x);
+			* doom->textures[ray->tex_num]->format->BytesPerPixel);
+	if (ray->start_end.x < ray->max_y)
+		ray->max_y = ray->start_end.x; // Тут отрисовка пола
 }
 
 /*
@@ -67,7 +84,7 @@ static void	init_ray(t_ray *ray, t_vector pos, t_vector dir, t_vector plane)
 	ray->dir.y = dir.y + plane.y * ray->camera.x;
 	ray->delta_dist.x = fabs(1 / ray->dir.x);
 	ray->delta_dist.y = fabs(1 / ray->dir.y);
-	ray->max_y = H;
+	ray->max_y = H - 1;
 	if (ray->dir.x < 0)
 	{
 		ray->step.x = -1;
@@ -113,35 +130,38 @@ static void	move_ray(t_ray *ray)
 }
 
 
-void		draw_small_wall(t_ray *ray, t_doom* doom, int x, t_smallwall *wall)
+void		draw_small_wall(t_ray *ray, t_doom* doom, int x)
 {
 	t_pixel	pixel;
 	t_pixel	t;
 	int height;
 
-	ray->lh =  abs((int)((H / wall->dist)));
-	height = ray->lh * wall->height;
-	ray->start_end.x = (-height / 2 + H / 2 + doom->vertical) + (ray->lh - height) / 2 ;
+	ray->lh =  abs((int)((H / ray->wall_dist)));
+	height = ray->lh * doom->map[ray->map.y][ray->map.x]->height;
+	ray->start_end.x = (-height / 2 + H / 2 + doom->vertical) + (ray->lh - height) / 2;
 	ray->start_end.y = (height / 2 + H / 2 + doom->vertical) + (ray->lh - height) / 2;
 	pixel.x = x;
 	pixel.y = ray->start_end.x - 1 > 0 ? ray->start_end.x - 1 : 0;
-	if (wall->side == 0)
-		ray->wall_x = doom->pos.y + wall->dist * ray->dir.y;
+	if (ray->side == 0)
+		ray->wall_x = doom->pos.y + ray->wall_dist * ray->dir.y;
 	else
-		ray->wall_x = doom->pos.x + wall->dist * ray->dir.x;
+		ray->wall_x = doom->pos.x + ray->wall_dist * ray->dir.x;
 	ray->wall_x -= floor((ray->wall_x));
 	t.x = (int)(ray->wall_x * (double)TS);
-	if (wall->side == 0 && ray->dir.x > 0)
+	if (ray->side == 0 && ray->dir.x > 0)
 		t.x = TS - t.x - 1;
-	if (wall->side == 1 && ray->dir.y < 0)
+	if (ray->side == 1 && ray->dir.y < 0)
 		t.x = TS - t.x - 1;
 	while (++pixel.y < ray->start_end.y)
+	{
 		if (pixel.y < H && pixel.x < W && pixel.y >= 0 && pixel.x >= 0 && pixel.y < ray->max_y)
 			*(Uint32*)(doom->surface->pixels + ((pixel.y) * W + pixel.x)
 			* doom->surface->format->BytesPerPixel) = *(Uint32*)(doom->textures[0]->pixels + (TS
 			* (((pixel.y - ray->start_end.x) * TS) /  height) + t.x)
 			* doom->textures[0]->format->BytesPerPixel);
-	ray->max_y = ray->start_end.x;
+	}
+	if (ray->start_end.x < ray->max_y)
+		ray->max_y = ray->start_end.x; // Тут отрисовка пола
 }
 
 /*
@@ -152,7 +172,6 @@ void		draw_small_wall(t_ray *ray, t_doom* doom, int x, t_smallwall *wall)
 void		new_raycast(t_doom *doom, int x)
 {
 	t_ray		ray;
-	t_smallwall *wall;
 
 	ray.map.x = (int)doom->pos.x;
 	ray.map.y = (int)doom->pos.y;
@@ -164,76 +183,14 @@ void		new_raycast(t_doom *doom, int x)
 		move_ray(&ray);
 		if (doom->map[ray.map.y][ray.map.x]->height > 0.0)
 		{
-			if (ray.side == 0)
-				ray.wall_dist = (ray.map.x - doom->pos.x
-							+ (1 - ray.step.x) / 2) / ray.dir.x;
-			else
-				ray.wall_dist = (ray.map.y - doom->pos.y
-							+ (1 - ray.step.y) / 2) / ray.dir.y;
+			calculate(&ray, doom);
 			if (doom->map[ray.map.y][ray.map.x]->height == 1.0)
 			{
-				ray.lh = abs((int)((H / ray.wall_dist)));
-				ray.start_end.x = (-ray.lh / 2 + H / 2 + doom->vertical);
-				ray.start_end.y = (ray.lh / 2 + H / 2 + doom->vertical);
-				doom->z_buffer[x] = ray.wall_dist;
-				wall = create_small_wall(ray.map, doom->map[ray.map.y][ray.map.x]->height, ray.wall_dist, ray.side);
-				draw_small_wall(&ray, doom, x, wall);
-				free(wall);
+				draw_line(&ray, doom, x);
 				ray.hit = 1;
 			}
 			else
-			{
-				wall = create_small_wall(ray.map, doom->map[ray.map.y][ray.map.x]->height, ray.wall_dist, ray.side);
-				draw_small_wall(&ray, doom, x, wall);
-				free(wall);
-			}
+				draw_small_wall(&ray, doom, x);
 		}
-	}
-}
-
-void		ray(t_doom *doom, int i)
-{
-	t_ray ray;
-	t_smallwall	*walls;
-
-	walls = NULL;
-	ray.map.x = (int)doom->pos.x;
-	ray.map.y = (int)doom->pos.y;
-	ray.camera.x = 2 * i / (double)W - 1;
-	init_ray(&ray, doom->pos, doom->dir, doom->plane);
-	while (ray.hit == 0)
-	{
-		move_ray(&ray);
-		if (doom->map[ray.map.y][ray.map.x]->height < 1.0 && doom->map[ray.map.y][ray.map.x]->height != 0.0)
-		{
-			if (ray.side == 0)
-				ray.wall_dist = (ray.map.x - doom->pos.x
-							+ (1 - ray.step.x) / 2) / ray.dir.x;
-			else
-				ray.wall_dist = (ray.map.y - doom->pos.y
-							+ (1 - ray.step.y) / 2) / ray.dir.y;
-			if (!walls)
-				walls = create_small_wall(ray.map, doom->map[ray.map.y][ray.map.x]->height, ray.wall_dist, ray.side);
-			else
-				add_wall(&walls, ray.map, doom->map[ray.map.y][ray.map.x]->height, ray.wall_dist, ray.side);
-		}
-		else if (doom->map[ray.map.y][ray.map.x]->height == 1.0)
-			ray.hit = 1;
-	}
-	if (ray.side == 0)
-		ray.wall_dist = (ray.map.x - doom->pos.x
-							+ (1 - ray.step.x) / 2) / ray.dir.x;
-	else
-		ray.wall_dist = (ray.map.y - doom->pos.y
-							+ (1 - ray.step.y) / 2) / ray.dir.y;
-	ray.lh = abs((int)((H / ray.wall_dist)));
-	ray.start_end.x = (-ray.lh / 2 + H / 2 + doom->vertical);
-	ray.start_end.y = (ray.lh / 2 + H / 2 + doom->vertical);
-	doom->z_buffer[i] = ray.wall_dist;
-	draw_line(&ray, doom, i);
-	while (walls)
-	{
-		draw_small_wall(&ray, doom, i, walls);
-		walls = walls->next;
 	}
 }

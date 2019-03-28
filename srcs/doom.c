@@ -6,13 +6,15 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 15:24:40 by fmacgyve          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/03/28 21:17:25 by ghalvors         ###   ########.fr       */
+=======
+/*   Updated: 2019/03/28 16:41:27 by marvin           ###   ########.fr       */
+>>>>>>> 8c6e4892ef04027acaa6e59f996db745a2f92050
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-
-
 
 t_doom	*create_doom(char *name)
 {

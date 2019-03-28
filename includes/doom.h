@@ -6,7 +6,11 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/03/28 19:51:17 by ghalvors         ###   ########.fr       */
+=======
+/*   Updated: 2019/03/28 16:47:57 by marvin           ###   ########.fr       */
+>>>>>>> 8c6e4892ef04027acaa6e59f996db745a2f92050
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +73,6 @@ typedef struct	s_smallwall
 	t_pixel		pos;
 	double		height;
 	int			side;
-	struct s_smallwall	*next;
 	double		dist;
 }				t_smallwall;
 
@@ -82,6 +85,7 @@ typedef struct	s_doom
 	// is game run or not
 	int			running;
 	int			vertical;
+	t_pixel		size;
 	SDL_Surface	*textures[9];
 	t_smallwall	small_walls[4];
 	SDL_Surface	*gun;
