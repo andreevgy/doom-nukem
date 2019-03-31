@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 15:40:50 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/31 12:00:37 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/31 12:25:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ int	key_press(SDL_Event event, t_doom *doom)
 		doom->running = 0;
 	if (event.type == SDL_KEYDOWN)
 	{
-		if (event.key.keysym.scancode == SDL_SCANCODE_RIGHT)
-			rotate_right(&doom);
-		if (event.key.keysym.scancode == SDL_SCANCODE_LEFT)
-			rotate_left(&doom);
 		if (event.key.keysym.scancode == SDL_SCANCODE_W)
 			move_forward(&doom);
 		if (event.key.keysym.scancode == SDL_SCANCODE_S)

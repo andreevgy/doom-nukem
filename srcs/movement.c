@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/21 17:06:35 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/31 12:18:05 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/31 12:27:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	move_back(t_doom **doom)
 				[(int)((*doom)->pos.x)]->height == 0.0)
 		(*doom)->pos.y -= (*doom)->dir.y * MOVE_SPEED;
 }
-
 
 void	move_right(t_doom **doom)
 {

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/31 12:00:59 by marvin           ###   ########.fr       */
+/*   Updated: 2019/03/31 13:25:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void			move_forward(t_doom **doom);
 void			move_back(t_doom **doom);
 void			move_right(t_doom **doom);
 void			move_left(t_doom **doom);
-int				validate_map(t_doom *doom, t_pixel *size);
+int				validate_map(t_doom *doom, t_pixel size);
 void			ray(t_doom *doom, int i);
 int				read_textures(t_doom **doom);
 void			floor_casting(t_ray ray, t_doom *doom, int x);
@@ -155,5 +155,8 @@ t_smallwall		*create_small_wall(t_pixel pos, double height, double dist, int sid
 t_block			*create_block(double height, int texture);
 void			new_raycast(t_doom *doom, int x);
 void			setup_settings(t_doom **doom);
+void			calculate(t_ray *ray, t_doom *doom);
+void			draw_small_wall(t_ray *ray, t_doom* doom, int x);
+void			move_ray(t_ray *ray);
 
 #endif

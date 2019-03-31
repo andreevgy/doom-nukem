@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 15:19:26 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/28 23:27:30 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/03/31 12:25:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int			main(int argc, char **argv)
 		while (doom->running)
 			if (SDL_WaitEvent(&(doom->event)) >= 0)
 			{
-				if (key_press(doom->event, doom) || mouse_movement(doom->event, &doom))
+				if (key_press(doom->event, doom)
+				|| mouse_movement(doom->event, &doom))
 					draw_sdl_threads(doom);
 			}
 		clean_up(doom);
