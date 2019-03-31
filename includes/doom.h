@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/28 22:06:45 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/03/31 13:25:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,18 @@ typedef struct	s_smallwall
 	double		dist;
 }				t_smallwall;
 
+typedef struct	s_settings
+{
+	double	x_mouse_speed;
+	double	y_mouse_speed;
+}				t_settings;
+
 typedef struct	s_doom
 {
 	SDL_Window	*window;
 	SDL_Surface	*surface;
 	SDL_Event	event;
+	t_settings	settings;
 	t_block		***map;
 	int			running;
 	int			vertical;
@@ -121,6 +128,7 @@ typedef struct	s_thread_args
 
 t_doom			*create_doom(char *name);
 int				key_press(SDL_Event event, t_doom *doom);
+int				mouse_movement(SDL_Event event, t_doom **doom);
 int				close_window(void *param);
 int				read_map(t_doom **doom, char *name);
 void			set_pixel_to_image(char *data_addr, int size_line,
@@ -131,7 +139,9 @@ void			rotate_right(t_doom **doom);
 void			rotate_left(t_doom **doom);
 void			move_forward(t_doom **doom);
 void			move_back(t_doom **doom);
-int				validate_map(t_doom *doom, t_pixel *size);
+void			move_right(t_doom **doom);
+void			move_left(t_doom **doom);
+int				validate_map(t_doom *doom, t_pixel size);
 void			ray(t_doom *doom, int i);
 int				read_textures(t_doom **doom);
 void			floor_casting(t_ray ray, t_doom *doom, int x);
@@ -144,5 +154,9 @@ void 			add_wall(t_smallwall **wall, t_pixel pos, double height, double dist, in
 t_smallwall		*create_small_wall(t_pixel pos, double height, double dist, int side);
 t_block			*create_block(double height, int texture);
 void			new_raycast(t_doom *doom, int x);
+void			setup_settings(t_doom **doom);
+void			calculate(t_ray *ray, t_doom *doom);
+void			draw_small_wall(t_ray *ray, t_doom* doom, int x);
+void			move_ray(t_ray *ray);
 
 #endif

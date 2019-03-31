@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 17:58:55 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/28 22:08:44 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/03/31 13:38:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,24 @@ static t_thread_args	*create_args(t_doom *doom, int start, int end)
 	return (args);
 }
 
-void		draw_background(t_doom *doom, int x)
-{
-	int y;
-	y = 0;
-	while (y < H / 2)
-	{
-		*(Uint32*)(doom->surface->pixels + (y * W + x)
-			* doom->surface->format->BytesPerPixel) = 0x1e6047;
-			y++;
-	}
-	while (y < H)
-	{
-		*(Uint32*)(doom->surface->pixels + (y * W + x)
-			* doom->surface->format->BytesPerPixel) = 0x668b8b;
-			y++;
-	}
-}
-
 static int				draw_rays_thread(void *param)
 {
 	int				i;
 	t_thread_args	*args;
+	int				y;
 
 	args = (t_thread_args*)param;
 	i = args->start;
 	while (i < args->end)
 	{
-		draw_background(args->doom, i);
+		y = -1;
+		while (++y < H / 2)
+			*(Uint32*)(args->doom->surface->pixels + (y * W + i)
+				* args->doom->surface->format->BytesPerPixel) = 0x1e6047;
+		y--;
+		while (++y < H)
+			*(Uint32*)(args->doom->surface->pixels + (y * W + i)
+				* args->doom->surface->format->BytesPerPixel) = 0x668b8b;
 		new_raycast(args->doom, i);
 		i++;
 	}

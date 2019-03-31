@@ -3,26 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 15:28:03 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/03/28 22:38:35 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/03/31 13:35:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
 /*
-**	get_texture
-**	Returns number of texture depending on side of wall and direction
+**	calculate
+**	Calculates all needed variables for wall after hit
 */
 
-static int	get_texture(t_ray ray, t_doom *doom)
-{
-	return (doom->map[ray.map.y][ray.map.x]->texture);
-}
-
-static void	calculate(t_ray *ray, t_doom *doom)
+void		calculate(t_ray *ray, t_doom *doom)
 {
 	if (ray->side == 0)
 		ray->wall_dist = (ray->map.x - doom->pos.x
@@ -37,7 +32,7 @@ static void	calculate(t_ray *ray, t_doom *doom)
 
 /*
 **	draw_line
-**	Draws one vertical line of wall depending on ray info and x-coordinate
+**	Draws one vertical line of full wall depending on ray info and x-coordinate
 */
 
 static void	draw_line(t_ray *ray, t_doom *doom, int x)
@@ -47,7 +42,7 @@ static void	draw_line(t_ray *ray, t_doom *doom, int x)
 
 	pixel.x = x;
 	pixel.y = ray->start_end.x - 1 > 0 ? ray->start_end.x - 1 : 0;
-	ray->tex_num = get_texture(*ray, doom);
+	ray->tex_num = doom->map[ray->map.y][ray->map.x]->texture;
 	if (ray->side == 0)
 		ray->wall_x = doom->pos.y + ray->wall_dist * ray->dir.y;
 	else
@@ -59,14 +54,14 @@ static void	draw_line(t_ray *ray, t_doom *doom, int x)
 	if (ray->side == 1 && ray->dir.y < 0)
 		t.x = TS - t.x - 1;
 	while (++pixel.y < ray->start_end.y)
-		if (pixel.y < H && pixel.x < W && pixel.x >= 0 && pixel.y >= 0 && pixel.y < ray->max_y)
+		if (pixel.y < H && pixel.x < W
+		&& pixel.x >= 0 && pixel.y >= 0 && pixel.y < ray->max_y)
 			*(Uint32*)(doom->surface->pixels + ((pixel.y) * W + pixel.x)
 			* doom->surface->format->BytesPerPixel) =
 			*(Uint32*)(doom->textures[ray->tex_num]->pixels + (TS
 			* (((pixel.y - ray->start_end.x) * TS) / ray->lh) + t.x)
 			* doom->textures[ray->tex_num]->format->BytesPerPixel);
-	if (ray->start_end.x < ray->max_y)
-		ray->max_y = ray->start_end.x; // Тут отрисовка пола
+	ray->max_y = ray->start_end.x < ray->max_y ? ray->start_end.x : ray->max_y;
 }
 
 /*
@@ -101,15 +96,14 @@ static void	init_ray(t_ray *ray, t_vector pos, t_vector dir, t_vector plane)
 		ray->step.y = 1;
 		ray->side_dist.y = (ray->map.y + 1.0 - pos.y) * ray->delta_dist.y;
 	}
-	ray->hit = 0;
 }
 
 /*
 **	move_ray
-**	Moves ray depending.n side
+**	Moves ray depending on side
 */
 
-static void	move_ray(t_ray *ray)
+void		move_ray(t_ray *ray)
 {
 	if (ray->side_dist.x < ray->side_dist.y)
 	{
@@ -125,58 +119,6 @@ static void	move_ray(t_ray *ray)
 	}
 }
 
-
-void		draw_small_wall(t_ray *ray, t_doom* doom, int x)
-{
-	t_pixel	pixel;
-	t_pixel	t;
-	int height;
-	t_ray	tmpray;
-
-	ray->lh =  abs((int)((H / ray->wall_dist)));
-	height = ray->lh * doom->map[ray->map.y][ray->map.x]->height;
-	ray->start_end.x = (-height / 2 + H / 2 + doom->vertical) + (ray->lh - height) / 2;
-	ray->start_end.y = (height / 2 + H / 2 + doom->vertical) + (ray->lh - height) / 2;
-	pixel.x = x;
-	pixel.y = ray->start_end.x - 1 > 0 ? ray->start_end.x - 1 : 0;
-	if (ray->side == 0)
-		ray->wall_x = doom->pos.y + ray->wall_dist * ray->dir.y;
-	else
-		ray->wall_x = doom->pos.x + ray->wall_dist * ray->dir.x;
-	ray->wall_x -= floor((ray->wall_x));
-	t.x = (int)(ray->wall_x * (double)TS);
-	if (ray->side == 0 && ray->dir.x > 0)
-		t.x = TS - t.x - 1;
-	if (ray->side == 1 && ray->dir.y < 0)
-		t.x = TS - t.x - 1;
-	while (++pixel.y < ray->start_end.y)
-	{
-		if (pixel.y < H && pixel.x < W && pixel.y >= 0 && pixel.x >= 0 && pixel.y < ray->max_y)
-			*(Uint32*)(doom->surface->pixels + ((pixel.y) * W + pixel.x)
-			* doom->surface->format->BytesPerPixel) = *(Uint32*)(doom->textures[0]->pixels + (TS
-			* (((pixel.y - ray->start_end.x) * TS) / ray->lh) + t.x)
-			* doom->textures[0]->format->BytesPerPixel);
-	}
-	if (ray->start_end.x < ray->max_y)
-		ray->max_y = ray->start_end.x; // Тут отрисовка пола
-	tmpray = *ray;
-	move_ray(&tmpray);
-	calculate(&tmpray, doom);
-	tmpray.lh =  abs((int)((H / tmpray.wall_dist)));
-	height = tmpray.lh * doom->map[ray->map.y][ray->map.x]->height;
-	tmpray.start_end.x = (-height / 2 + H / 2 + doom->vertical) + (tmpray.lh - height) / 2;
-	tmpray.start_end.y = (height / 2 + H / 2 + doom->vertical) + (tmpray.lh - height) / 2;
-	pixel.y = tmpray.start_end.x - 1 > 0 ? tmpray.start_end.x - 1 : 0;
-	while (++pixel.y < ray->start_end.x)
-	{
-		if (pixel.y < H && pixel.x < W && pixel.y >= 0 && pixel.x >= 0 && pixel.y < tmpray.max_y)
-			*(Uint32*)(doom->surface->pixels + ((pixel.y) * W + pixel.x)
-			* doom->surface->format->BytesPerPixel) = 0x00FF00;
-	}
-	if (tmpray.start_end.x < ray->max_y)
-		ray->max_y = tmpray.start_end.x;
-}
-
 /*
 **	ray
 **	Creates ray and casts in right direction, then draws a wall
@@ -189,11 +131,13 @@ void		new_raycast(t_doom *doom, int x)
 	ray.map.x = (int)doom->pos.x;
 	ray.map.y = (int)doom->pos.y;
 	ray.camera.x = 2 * x / (double)W - 1;
+	ray.hit = 0;
 	init_ray(&ray, doom->pos, doom->dir, doom->plane);
 	while (ray.hit == 0)
 	{
 		move_ray(&ray);
-		if (ray.map.y >= 0 && ray.map.x >= 0 && doom->map[ray.map.y][ray.map.x]->height > 0.0)
+		if (ray.map.y >= 0 && ray.map.x >= 0
+		&& doom->map[ray.map.y][ray.map.x]->height > 0.0)
 		{
 			calculate(&ray, doom);
 			if (doom->map[ray.map.y][ray.map.x]->height == 1.0)
