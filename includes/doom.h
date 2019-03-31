@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 15:16:23 by marvin            #+#    #+#             */
-/*   Updated: 2019/03/28 23:48:16 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/03/31 12:00:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ void			rotate_right(t_doom **doom);
 void			rotate_left(t_doom **doom);
 void			move_forward(t_doom **doom);
 void			move_back(t_doom **doom);
+void			move_right(t_doom **doom);
+void			move_left(t_doom **doom);
 int				validate_map(t_doom *doom, t_pixel *size);
 void			ray(t_doom *doom, int i);
 int				read_textures(t_doom **doom);
