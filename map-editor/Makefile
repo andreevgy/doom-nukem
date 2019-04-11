@@ -6,11 +6,11 @@
 #    By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/27 16:55:32 by ghalvors          #+#    #+#              #
-#    Updated: 2019/04/11 16:06:34 by ghalvors         ###   ########.fr        #
+#    Updated: 2019/04/11 17:09:46 by ghalvors         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = map-editor
+NAME = ../map_editor
 GCC = gcc -Wall -Wextra -Werror -O0 -g
 SRCDIR = srcs
 OBJDIR = obj
