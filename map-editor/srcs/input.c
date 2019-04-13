@@ -66,7 +66,7 @@ void	init_sector(t_editor *editor)
 	
 }
 
-void	perform_sector(t_editor *editor, t_point *point)
+void	perform_sector(t_editor *editor)
 {
 	if (!(editor->sectors))
 		init_sector(editor);
@@ -84,11 +84,11 @@ int	set_point(SDL_Event event, t_editor *editor)
 		{
 			SDL_GetMouseState(&point->x, &point->y);
 			to_nearest_point(&point->x, &point->y);
-			perform_sector(editor, point);
+			perform_sector(editor);
 			if (editor->map[point->x / STEP][point->y / STEP] == 0)
 			{
 				editor->map[point->x / STEP][point->y / STEP] = 1;
-				put_point(editor, &point);
+				put_point(editor, point);
 			}
 		}
 	}
