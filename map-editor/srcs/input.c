@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:24:58 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/04/12 14:46:02 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/04/14 16:02:48 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,55 @@ void	put_point(t_editor *editor, t_point *point)
 
 void	init_sector(t_editor *editor)
 {
-	if (!(editor->sectors = malloc(sizeof(t_sector))))
-		exit(EXIT_FAILURE);
-	
+	t_sector *head;
+	t_sector *sec;
+
+	if (!editor->sectors)
+	{
+		if (!(editor->sectors = (t_sector*)malloc(sizeof(t_sector))))
+			exit(EXIT_FAILURE);
+		editor->sectors->next = NULL;
+	}
+	else
+	{
+		head = editor->sectors;
+		if (!(sec = (t_sector*)malloc(sizeof(t_sector))))
+			exit(EXIT_FAILURE);
+		sec->next = head;
+		editor->sectors = sec;
+	}
+	editor->sectors->is_closed = 0;
+	editor->sectors->point = NULL;
+}
+
+void	add_point(t_editor *editor, t_point *point)
+{
+	if (!editor->sectors->point)
+	{
+		editor->sectors->point = point;
+		printf("First point added\n");
+		editor->sectors->last_point = editor->sectors->point;
+	}
+	else
+	{
+		editor->sectors->last_point->next = point;
+		editor->sectors->last_point = editor->sectors->last_point->next;
+		printf("Point added\n");
+	}
 }
 
 void	perform_sector(t_editor *editor, t_point *point)
 {
-	if (!(editor->sectors))
+	if (!(editor->sectors) || editor->sectors->is_closed == 1)
 		init_sector(editor);
+	if (editor->sectors->point && (editor->sectors->point->x == point->x &&
+	editor->sectors->point->y == point->y))
+	{
+		editor->sectors->is_closed = 1;
+		printf("Sector created!\n");
+	}
+	else
+		add_point(editor, point);
 }
 
 int	set_point(SDL_Event event, t_editor *editor)
@@ -77,7 +117,8 @@ int	set_point(SDL_Event event, t_editor *editor)
 	t_point	*point;
 
 	if (!(point = (t_point*)malloc(sizeof(t_point))))
-		exit(EXIT_FAILURE);	
+		exit(EXIT_FAILURE);
+	point->next = NULL;
 	if (event.motion.type == SDL_MOUSEBUTTONDOWN)
 	{
 		if (event.button.button == SDL_BUTTON_LEFT)
@@ -88,7 +129,7 @@ int	set_point(SDL_Event event, t_editor *editor)
 			if (editor->map[point->x / STEP][point->y / STEP] == 0)
 			{
 				editor->map[point->x / STEP][point->y / STEP] = 1;
-				put_point(editor, &point);
+				put_point(editor, point);
 			}
 		}
 	}

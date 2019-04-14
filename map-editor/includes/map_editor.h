@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:16:41 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/04/12 14:42:37 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/04/14 15:40:00 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ typedef struct		s_point
 	int				x;
 	int				y;
 	int				z;
-	struct s_point	*prev;
 	struct s_point	*next;
 }					t_point;
 
 typedef struct	s_sector
 {
 	t_point			*point;
+	t_point			*last_point;
 	int				is_closed;
 	struct s_sector	*next;
 }				t_sector;
@@ -42,7 +42,6 @@ typedef struct	s_editor
 	SDL_Event	event;
 	char		map[100][100];
 	t_sector	*sectors;
-	t_sector	*last_sector;
 	int			running;
 	int			move_x;
 	int			move_y;
