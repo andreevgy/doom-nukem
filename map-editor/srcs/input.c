@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:24:58 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/04/14 16:13:17 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/04/14 17:55:08 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	to_nearest_point(int *x, int *y)
 		*y -= *y % STEP;
 }
 
-void	put_point(t_editor *editor, t_point *point)
+void	render_point(t_editor *editor, t_point *point)
 {
 	int i;
 	int j;
@@ -82,19 +82,31 @@ void	init_sector(t_editor *editor)
 	editor->sectors->point = NULL;
 }
 
-void	add_point(t_editor *editor, t_point *point)
+void	add_point(t_sector *sector, t_point *point)
 {
-	if (!editor->sectors->point)
+	t_point *temp;
+
+	if (!sector->point)
 	{
-		editor->sectors->point = point;
+		sector->point = point;
 		printf("First point added\n");
-		editor->sectors->last_point = editor->sectors->point;
+		sector->last_point = sector->point;
+		sector->vertices = 1;
 	}
 	else
 	{
-		editor->sectors->last_point->next = point;
-		editor->sectors->last_point = editor->sectors->last_point->next;
+		temp = sector->point;
+		while(temp->next)
+		{
+			if (point->x == temp->x ||
+			point->y == temp->y)
+				return ;
+			temp = temp->next;
+		}
+		sector->last_point->next = point;
+		sector->last_point = sector->last_point->next;
 		printf("Point added\n");
+		sector->vertices += 1;
 	}
 }
 
@@ -103,13 +115,20 @@ void	perform_sector(t_editor *editor, t_point *point)
 	if (!(editor->sectors) || editor->sectors->is_closed == 1)
 		init_sector(editor);
 	if (editor->sectors->point && (editor->sectors->point->x == point->x &&
-	editor->sectors->point->y == point->y))
+	editor->sectors->point->y == point->y) && editor->sectors->vertices >= 3)
 	{
 		editor->sectors->is_closed = 1;
 		printf("Sector created!\n");
 	}
 	else
-		add_point(editor, point);
+	{
+		if (editor->map[point->x / STEP][point->y / STEP] == 0)
+		{
+			editor->map[point->x / STEP][point->y / STEP] = 1;
+			render_point(editor, point);
+		}
+		add_point(editor->sectors, point);
+	}
 }
 
 int	set_point(SDL_Event event, t_editor *editor)
@@ -126,11 +145,6 @@ int	set_point(SDL_Event event, t_editor *editor)
 			SDL_GetMouseState(&point->x, &point->y);
 			to_nearest_point(&point->x, &point->y);
 			perform_sector(editor, point);
-			if (editor->map[point->x / STEP][point->y / STEP] == 0)
-			{
-				editor->map[point->x / STEP][point->y / STEP] = 1;
-				put_point(editor, point);
-			}
 		}
 	}
 	return (0);
