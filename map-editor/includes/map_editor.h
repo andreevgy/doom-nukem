@@ -6,13 +6,14 @@
 /*   By: fmacgyve <fmacgyve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:16:41 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/04/20 14:33:21 by fmacgyve         ###   ########.fr       */
+/*   Updated: 2019/04/20 15:16:37 by fmacgyve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SDL.h"
 # include "SDL_image.h"
 # include "SDL_mixer.h"
+# include "SDL_ttf.h"
 #include "libft.h"
 
 # define	W 500

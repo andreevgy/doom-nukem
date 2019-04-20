@@ -6,9 +6,11 @@
 /*   By: fmacgyve <fmacgyve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 17:26:56 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/04/20 15:27:18 by fmacgyve         ###   ########.fr       */
+/*   Updated: 2019/04/20 17:22:27 by fmacgyve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// Компилить: gcc create_modal.c -I ../includes -I ../../includes -L/Users/fmacgyve/.brew/lib -lSDL2 -lSDL2_ttf -I/Users/fmacgyve/.brew/include/SDL2 -D_THREAD_SAFE ../../libft/libft.a
 
 #include "map_editor.h"
 
@@ -21,6 +23,7 @@ typedef struct	s_modal_data
 }				t_modal_data;
 
 TTF_Font *font = NULL;
+
 
 void	put_pixel(SDL_Surface *surface, t_point point)
 {
@@ -70,8 +73,31 @@ void	draw_input_rectangle(SDL_Surface *surface, t_point start, t_point end)
 	}
 }
 
+void	draw_data(SDL_Surface *surface, SDL_Window *window, t_modal_data data)
+{
+	t_point start;
+	t_point end;
+
+	start.x = 10;
+	start.y = 10;
+	end.x = 390;
+	end.y = 50;
+	SDL_FillRect(surface, NULL, 0x000000);
+	draw_input_rectangle(surface, start, end);
+	start.x = 20;
+	draw_text(surface, data.input_text[0], start);
+	start.x = 10;
+	start.y = 60;
+	end.y = 100;
+	draw_input_rectangle(surface, start, end);
+	start.x = 20;
+	draw_text(surface, data.input_text[1], start);
+	SDL_UpdateWindowSurface(window);
+}
+
 void	create_modal()
 {
+	// TODO оптимизировать и доделать
 	SDL_Window *window = SDL_CreateWindow("modal", SDL_WINDOWPOS_UNDEFINED,
 				SDL_WINDOWPOS_UNDEFINED, 400, 500, SDL_WINDOW_ALLOW_HIGHDPI);
 	SDL_StartTextInput();
@@ -83,20 +109,11 @@ void	create_modal()
 	data.input_text[0] = ft_strnew(0);
 	data.input_text[1] = ft_strnew(0);
 	int done = 0;
-	t_point start;
-	start.x = 10;
-	start.y = 10;
-	t_point end;
-	end.x = 390;
-	end.y = 50;
-	draw_input_rectangle(surface, start, end);
-	start.y = 60;
-	end.y = 100;
-	draw_input_rectangle(surface, start, end);
-	draw_text(surface, "test", start);
-	SDL_UpdateWindowSurface(window);
+	draw_data(surface, window, data);
 	while(!done)
 	{
+		draw_data(surface, window, data);
+		SDL_UpdateWindowSurface(window);
 		SDL_Event event;
 		if (SDL_PollEvent(&event))
 		{
@@ -107,7 +124,11 @@ void	create_modal()
 					break;
 				case SDL_TEXTINPUT:
 					/* Add new text onto the end of our text */
-					if (ft_isdigit(*event.text.text))
+					if (((ft_atoi(data.input_text[data.active_field]) >= 0 && ft_strlen(data.input_text[data.active_field]) < 10) ||
+					(ft_atoi(data.input_text[data.active_field]) < 0 && ft_strlen(data.input_text[data.active_field]) < 11)) &&
+					((*event.text.text == '-' &&
+					!ft_strlen(data.input_text[data.active_field]))
+					|| ft_isdigit(*event.text.text)))
 					{
 						strcat(data.input_text[data.active_field], event.text.text);
 						printf("%s\n", data.input_text[data.active_field]);
