@@ -6,7 +6,7 @@
 /*   By: hkuphal <hkuphal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 11:27:00 by hkuphal           #+#    #+#             */
-/*   Updated: 2019/04/15 16:32:27 by hkuphal          ###   ########.fr       */
+/*   Updated: 2019/04/20 15:20:57 by hkuphal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,8 +319,11 @@ int main()
 			}
 
 		/* mouse aiming */
-		int x,y;
-		SDL_GetRelativeMouseState(&x,&y);
+		int x_tmp,y_tmp;
+		SDL_GetRelativeMouseState(&x_tmp,&y_tmp);
+		float x, y;
+		y = (float)-y_tmp / 5.0;
+		x = (float)x_tmp / 6.0;
 		player.angle += x * 0.03f;
 		yaw = clamp(yaw - y*0.05f, -5, 5);
 		player.yaw = yaw - player.velocity.z*0.5f;
