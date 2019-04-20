@@ -6,7 +6,7 @@
 /*   By: fmacgyve <fmacgyve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 17:26:56 by fmacgyve          #+#    #+#             */
-/*   Updated: 2019/04/15 17:49:02 by fmacgyve         ###   ########.fr       */
+/*   Updated: 2019/04/20 14:30:24 by fmacgyve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,15 @@ typedef struct	s_modal_data
 	char		*input_text[2];
 }				t_modal_data;
 
+void    draw_input_rectangle(SDL_Surface *surface)
+{
+
+}
+
 void	create_modal()
 {
 	SDL_CreateWindow("modal", SDL_WINDOWPOS_UNDEFINED,
-				SDL_WINDOWPOS_UNDEFINED, 250, 250, SDL_WINDOW_ALLOW_HIGHDPI);
+				SDL_WINDOWPOS_UNDEFINED, 400, 500, SDL_WINDOW_ALLOW_HIGHDPI);
 	SDL_StartTextInput();
 	t_modal_data data;
 	data.active_field = 0;

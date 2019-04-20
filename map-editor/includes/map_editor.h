@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_editor.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmacgyve <fmacgyve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:16:41 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/04/14 15:40:00 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/04/20 14:28:46 by fmacgyve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "libft.h"
 
 # define	W 2048
-# define		H 1024
+# define	H 1024
 # define	STEP 50
 
 typedef struct		s_point
