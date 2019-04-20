@@ -6,7 +6,7 @@
 /*   By: fmacgyve <fmacgyve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:16:41 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/04/20 14:28:46 by fmacgyve         ###   ########.fr       */
+/*   Updated: 2019/04/20 14:33:21 by fmacgyve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # include "SDL_mixer.h"
 #include "libft.h"
 
-# define	W 2048
-# define	H 1024
+# define	W 500
+# define	H 500
 # define	STEP 50
 
 typedef struct		s_point
@@ -32,6 +32,7 @@ typedef struct	s_sector
 	t_point			*point;
 	t_point			*last_point;
 	int				is_closed;
+	int				vertices;
 	struct s_sector	*next;
 }				t_sector;
 
